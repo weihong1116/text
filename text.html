@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>my jstest</title>
+		<script src="https://libs.baidu.com/jquery/2.1.4/jquery.min.js"></script>
+		<style>
+			#code p:nth-child(odd) {
+				text-align: center;
+				font-size: 60px;
+			}
+
+			#code p:nth-child(even) {
+				text-align: center;
+				font-size: 60px;
+			}
+
+			}
+		</style>
+	</head>
+	<body>
+		<div id="code">
+
+			<p>白日依山盡</p>
+			<p>黃河入海流</p>
+			<p>欲窮千里目</p>
+			<p>更上一層樓</p>
+
+		</div>
+
+		<script>
+			let progress=0,backprogress=0,str='',nowcontent=0;
+			$(function() {
+					typewriter("code");
+				});
+			
+			function typewriter(id) {
+				var $ele = document.getElementById(id);
+				str = $ele.innerHTML;
+				$ele.innerHTML = '';
+
+				var timer = setInterval(function() {
+
+					var current = str.substr(progress, 1);
+					if (current == '<') {
+						progress = str.indexOf('>', progress) + 1;
+					} else {
+						progress++;
+					}
+
+					$ele.innerHTML = str.substring(0, progress) + (progress & 1 ? '_' : '');
+
+					$ele.style.color = function() {
+						var letters = '0123456789ABCDEF'.split('');
+						var color = '#';
+						for (var i = 0; i < 6; i++) {
+							color += letters[Math.floor(Math.random() * 16)];
+						}
+						return color;
+					}();
+
+					if (progress >= str.length) {
+						clearInterval(timer);
+						typecleaner("code");				
+					}
+				}, 150);
+
+			}			
+			function typecleaner(id){
+				var $ele = document.getElementById(id);
+				backprogress = progress;
+				var backtimer = setInterval(function() {
+					backprogress--;
+					$ele.innerHTML = str.substring(0, backprogress);
+					if (backprogress == 1) {
+						clearInterval(backtimer);
+						progress=0;
+						changecontent(nowcontent==3?0:++nowcontent);
+						typewriter("code");
+					}
+				}, 50);
+				
+			}
+			
+			function changecontent(change){
+				let arr=[
+					'<p>白日依山盡</p><p>黃河入海流</p><p>欲窮千里目</p><p>更上一層樓</p>',
+					'<p>床前明月光</p><p>疑是地上霜</p><p>舉頭望明月</p><p>低頭思故鄉</p>',
+					'<p>月落烏啼霜滿天</p><p>江楓漁火對愁眠</p><p>姑蘇城外寒山寺</p><p>夜半鐘聲到客船</p>',
+					'<p>渭城朝雨浥輕塵</p><p>客舍青青柳色新</p><p>勸君更盡一杯酒</p><p>西出陽關無故人</p>'
+					];
+				document.getElementById("code").innerHTML=arr[change];
+			}
+		</script>
+
+	</body>
+</html>
