@@ -75,7 +75,7 @@
 					if (backprogress == 1) {
 						clearInterval(backtimer);
 						progress=0;
-						changecontent(nowcontent==3?0:++nowcontent);
+						changecontent(nowcontent==3?nowcontent=0:++nowcontent);
 						typewriter("code");
 					}
 				}, 50);
